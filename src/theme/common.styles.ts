@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { SerializedStyles } from '@mui/styled-engine'
 
 export const flexRowCenter = css`
   display: flex;
@@ -29,7 +30,7 @@ const customMediaQuery = (
   type: 'min' | 'max' | 'device' = 'min',
   target = 'only screen',
   orientation: 'portrait' | 'landscape' | null = null,
-) =>
+): string =>
   `
     @media ${target} and (${type}-width: ${width}px) ${
     orientation ? `and (orientation: ${orientation})` : ``
@@ -76,7 +77,7 @@ export const hw = {
     height: 50%;
     width: 50%;
   `,
-  custom: (h = 20, unit = '%', w = 0) => css`
+  custom: (h = 20, unit = '%', w = 0): SerializedStyles => css`
     height: ${h}${unit};
     width: ${w || h}${unit};
   `,

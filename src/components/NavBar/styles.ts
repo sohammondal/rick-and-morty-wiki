@@ -1,15 +1,10 @@
-import styled from '@emotion/styled'
+import { SxProps } from '@mui/material/'
 
-export const Logo = styled.img`
-  width: 45px;
-  margin-right: 10px;
-  cursor: pointer;
+export const boxSx: SxProps = {
+  flexGrow: 1,
+}
 
-  filter: grayscale(0.3);
-
-  :hover {
-    filter: grayscale(0);
-  }
-
-  transition: ease 0.5s;
-`
+export const appBarSx = {
+  backgroundColor: '#fff',
+  boxShadow: 'none',
+}

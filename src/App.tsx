@@ -1,12 +1,16 @@
 import React from 'react'
+import { Routes, Route } from 'react-router-dom'
 
-import { NavBar } from 'components/NavBar'
+import { Character } from 'pages/Character'
+import { Home } from 'pages/Home'
 
-export const App = (): React.ReactElement => {
+function App(): React.ReactElement {
   return (
-    <div>
-      <NavBar />
-    </div>
+    <Routes>
+      <Route path='/' element={<Home />}>
+        <Route path='character/:id' element={<Character />} />
+      </Route>
+    </Routes>
   )
 }
 
