@@ -3,10 +3,8 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Character, Location } from 'rickmortyapi/dist/interfaces'
-
-import { useAppDispatch } from 'store/hooks'
-import { fetchEpisode } from 'store/reducers/episodes'
 
 import { Card, CharInfo, Status } from './styles'
 
@@ -23,20 +21,26 @@ const statusColorMap: Record<Character['status'], string> = {
 }
 
 export const CharacterCard: React.FC<Props> = ({ character, location, origin }) => {
+  const navigate = useNavigate()
+
   const charInfo: Record<string, string> = {
     species: character.species || 'unknown',
     origin: `${origin?.name || 'unknown'} ${origin?.type ? ` • ${origin.type}` : ''}`,
     location: `${location?.name || 'unknown'} ${location?.type ? ` • ${location.type}` : ''}`,
   }
 
-  const dispatch = useAppDispatch()
-
   return (
     <Card>
       <CardActionArea
         className='card-action-area'
         onClick={() => {
-          dispatch(fetchEpisode(character.episode))
+          navigate(`/character/${character.id}`, {
+            state: {
+              character,
+              location,
+              origin,
+            },
+          })
         }}
       >
         <CardMedia

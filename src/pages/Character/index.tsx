@@ -1,18 +1,85 @@
-import { Box, Modal } from '@mui/material'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
+import Modal from '@mui/material/Modal'
+import Slide from '@mui/material/Slide'
+import Typography from '@mui/material/Typography'
+import React, { useEffect } from 'react'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
+
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { fetchCharacter, resetState } from 'store/reducers/character'
+
+import { EpisodesList } from './Episodes'
+import { CharInfo, closeIconSx, ModalContent, modalSx } from './styles'
 
 export const Character: React.FC = () => {
   const navigate = useNavigate()
+  const { characterId } = useParams()
+  const routerLocation = useLocation()
+  const dispatch = useAppDispatch()
+
+  const { character, episodes, origin, location /* isLoading */ } = useAppSelector(
+    (state) => state.character,
+  )
+
+  useEffect(() => {
+    if (!characterId) return navigate('/')
+    if (!routerLocation?.state) return
+
+    dispatch(
+      fetchCharacter({
+        character: Number(characterId),
+        ...routerLocation?.state,
+      }),
+    )
+  }, [routerLocation, characterId])
+
+  const charInfo: Record<string, string> = {
+    name: character.name,
+    status: String(character.status),
+    species: character.species,
+    gender: String(character.gender),
+    type: character.type,
+    origin: `${origin?.name || 'unknown'} ${origin?.type ? ` • ${origin.type}` : ''}`,
+    location: `${location?.name || 'unknown'} ${location?.type ? ` • ${location.type}` : ''}`,
+    episodes: String(episodes.length),
+  }
+
+  const closeModal = () => {
+    dispatch(resetState())
+    navigate('/')
+  }
+
   return (
-    <div>
-      <Modal
-        open
-        onClose={() => navigate('/')}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <Box sx={{ width: 500, height: 500, backgroundColor: '#fff' }}>Character Modal</Box>
-      </Modal>
-    </div>
+    <Modal open sx={modalSx} onClose={closeModal}>
+      <Slide in direction='up'>
+        <ModalContent>
+          <IconButton aria-label='close' onClick={closeModal} sx={closeIconSx}>
+            <CloseIcon />
+          </IconButton>
+          <div className='character-information'>
+            <img src={character?.image} alt={character.name} />
+            <div>
+              {Object.keys(charInfo).map((charInfoKey) => {
+                const value = charInfo[charInfoKey] || 'unknown'
+                return (
+                  <CharInfo key={charInfoKey}>
+                    <Typography variant='body2' color='text.secondary'>
+                      {charInfoKey}
+                    </Typography>
+                    <Typography variant='body1' color='text.primary'>
+                      {value}
+                    </Typography>
+                  </CharInfo>
+                )
+              })}
+            </div>
+          </div>
+          <div className='character-episodes'>
+            <EpisodesList episodes={episodes} />
+          </div>
+        </ModalContent>
+      </Slide>
+    </Modal>
   )
 }

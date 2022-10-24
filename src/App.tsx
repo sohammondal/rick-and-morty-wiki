@@ -8,7 +8,7 @@ function App(): React.ReactElement {
   return (
     <Routes>
       <Route path='/' element={<Home />}>
-        <Route path='character/:id' element={<Character />} />
+        <Route path='character/:characterId' element={<Character />} />
       </Route>
     </Routes>
   )
