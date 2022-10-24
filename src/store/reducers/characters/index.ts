@@ -18,7 +18,7 @@ const initialState: CharactersState = {
   isLoading: true,
 }
 
-const characterSlice = createSlice({
+const charactersSlice = createSlice({
   name: 'characters',
   initialState,
   reducers: {},
@@ -40,6 +40,6 @@ const characterSlice = createSlice({
   },
 })
 
-export default characterSlice.reducer
+export default charactersSlice.reducer
 
 export { fetchCharacters }

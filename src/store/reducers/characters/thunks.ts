@@ -2,9 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getCharacters } from 'rickmortyapi'
 import { CharacterFilter } from 'rickmortyapi/dist/interfaces'
 
-import { extractNumberFromString } from 'helpers/string'
-
-import { RootState } from '../..'
 import { fetchLocation } from '../locations/thunks'
 
 export const fetchCharacters = createAsyncThunk(
@@ -13,22 +10,19 @@ export const fetchCharacters = createAsyncThunk(
     try {
       const response = (await getCharacters(filters)).data
 
-      const state = thunkAPI.getState() as RootState
-      const locationsToFetch: Record<number, number> = {}
+      const locationsToFetch: Record<string, string> = {}
 
       response.results?.forEach((char) => {
-        if (char.location.url && !state.locations.data[char.location.url]) {
-          const id = extractNumberFromString(char.location.url)
-          if (id) locationsToFetch[id] = id
+        if (char.location.url) {
+          locationsToFetch[char.location.url] = char.location.url
         }
-        if (char.origin.url && !state.locations.data[char.origin.url]) {
-          const id = extractNumberFromString(char.origin.url)
-          if (id) locationsToFetch[id] = id
+        if (char.origin.url) {
+          locationsToFetch[char.origin.url] = char.origin.url
         }
       })
 
-      const locationIds = Object.values(locationsToFetch)
-      locationIds.length && thunkAPI.dispatch(fetchLocation(locationIds))
+      const locationUrls = Object.values(locationsToFetch)
+      locationUrls.length && thunkAPI.dispatch(fetchLocation(locationUrls))
 
       return response
     } catch (error) {

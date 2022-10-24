@@ -26,10 +26,16 @@ const episodeSlice = createSlice({
       })
       .addCase(fetchEpisode.fulfilled, (state, action) => {
         if (Array.isArray(action.payload)) {
-          action.payload.forEach((data: Episode) => {
+          action.payload.forEach((data) => {
             state.data[data.url] = data
           })
+        } else {
+          // handle single result
+          if (action?.payload?.url) {
+            state.data[action?.payload?.url] = action.payload
+          }
         }
+        state.isLoading = false
       })
       .addCase(fetchEpisode.rejected, (state) => {
         state.isLoading = false
