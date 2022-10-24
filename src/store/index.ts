@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import characterReducer from './reducers/characters'
+import characterReducer from './reducers/character'
+import charactersReducer from './reducers/characters'
 import episodeReducer from './reducers/episodes'
 import locationReducer from './reducers/locations'
 
 export const store = configureStore({
   reducer: {
-    characters: characterReducer,
+    characters: charactersReducer,
     locations: locationReducer,
     episodes: episodeReducer,
+    character: characterReducer,
   },
 })
 
