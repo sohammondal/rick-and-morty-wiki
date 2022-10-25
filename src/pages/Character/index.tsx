@@ -51,7 +51,7 @@ export const Character: React.FC = () => {
   }
 
   return (
-    <Modal open sx={modalSx} onClose={closeModal}>
+    <Modal open sx={modalSx} onClose={closeModal} data-testid='character-modal'>
       <Slide in direction='up'>
         <ModalContent>
           <IconButton aria-label='close' onClick={closeModal} sx={closeIconSx}>

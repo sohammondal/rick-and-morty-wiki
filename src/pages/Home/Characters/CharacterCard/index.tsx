@@ -30,7 +30,7 @@ export const CharacterCard: React.FC<Props> = ({ character, location, origin }) 
   }
 
   return (
-    <Card>
+    <Card data-testid='character-card'>
       <CardActionArea
         className='card-action-area'
         onClick={() => {

@@ -8,11 +8,10 @@ export const fetchCharacters = createAsyncThunk(
   'characters/getCharacters',
   async (filters: CharacterFilter, thunkAPI) => {
     try {
-      const response = (await getCharacters(filters)).data
-
+      const response = (await getCharacters(filters))?.data
       const locationsToFetch: Record<string, string> = {}
 
-      response.results?.forEach((char) => {
+      response?.results?.forEach((char) => {
         if (char.location.url) {
           locationsToFetch[char.location.url] = char.location.url
         }

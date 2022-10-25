@@ -29,6 +29,11 @@ const locationSlice = createSlice({
           action.payload.forEach((data: Location) => {
             state.data[data.url] = data
           })
+        } else {
+          // handle single result
+          if (action?.payload?.url) {
+            state.data[action?.payload?.url] = action.payload
+          }
         }
         state.isLoading = false
       })

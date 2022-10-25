@@ -10,6 +10,7 @@ import { Episode } from 'rickmortyapi/dist/interfaces'
 import { boxSx, listSx } from './styles'
 
 export const EpisodesList: React.FC<{ episodes: Episode[] }> = ({ episodes }) => {
+  if (!episodes.length) return null
   return (
     <Box sx={boxSx}>
       <Typography variant='h4'>Episodes</Typography>
@@ -17,8 +18,8 @@ export const EpisodesList: React.FC<{ episodes: Episode[] }> = ({ episodes }) =>
         {episodes?.map((episode, index) => {
           const isLastItem = episodes.length - 1 === index
           return (
-            <>
-              <ListItem key={episode.id}>
+            <React.Fragment key={episode.id}>
+              <ListItem>
                 <ListItemText
                   primary={
                     <>
@@ -58,7 +59,7 @@ export const EpisodesList: React.FC<{ episodes: Episode[] }> = ({ episodes }) =>
                 />
               </ListItem>
               {!isLastItem && <Divider variant='middle' component='li' />}
-            </>
+            </React.Fragment>
           )
         })}
       </List>

@@ -17,10 +17,12 @@ export const fetchEpisode = createAsyncThunk(
         if (episodeId && !state.episodes.data[episodeUrl]) episodeIds.push(episodeId)
       })
 
-      const episodes = (await getEpisode(episodeIds)).data
+      let episodes: Episode | Episode[] = {} as Episode
 
-      if (episodeIds.length === 1) return episodes as unknown as Episode
-      if (episodeIds.length > 1) return episodes
+      if (episodeIds.length) episodes = (await getEpisode(episodeIds)).data
+
+      if (episodeIds.length === 1) return episodes as Episode
+      if (episodeIds.length > 1) return episodes as Episode[]
     } catch (error: unknown) {
       if (error) {
         console.error(error.toString())

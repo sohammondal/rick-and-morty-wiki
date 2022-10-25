@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getLocation } from 'rickmortyapi'
+import { Location } from 'rickmortyapi/dist/interfaces'
 
 import { extractNumberFromString } from 'helpers/string'
 
@@ -21,7 +22,12 @@ export const fetchLocation = createAsyncThunk(
 
       const locationIds = Object.values(locationsToFetch)
 
-      if (locationIds.length) return (await getLocation(locationIds)).data
+      let locations: Location | Location[] = {} as Location
+
+      if (locationIds.length) locations = (await getLocation(locationIds)).data
+
+      if (locationIds.length === 1) return locations as Location
+      if (locationIds.length > 1) return locations as Location[]
     } catch (error: unknown) {
       if (error) {
         console.error(error.toString())
