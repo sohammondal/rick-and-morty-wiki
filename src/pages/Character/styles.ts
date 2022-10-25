@@ -43,6 +43,7 @@ export const ModalContent = styled.div`
     padding: 25px;
     ${flexRow}
     overflow: unset;
+    align-self: center;
 
     .character-information {
       ${flexColCenter}

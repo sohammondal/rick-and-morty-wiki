@@ -1,10 +1,6 @@
 import { SxProps } from '@mui/material/'
 
-export const boxSx: SxProps = {
-  flexGrow: 1,
-}
-
-export const appBarSx = {
+export const appBarSx: SxProps = {
   backgroundColor: '#fff',
   boxShadow: 'none',
 }
