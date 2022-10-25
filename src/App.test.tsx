@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react'
+import { screen, fireEvent, waitFor } from '@testing-library/react'
 import { mockIntersectionObserver } from 'jsdom-testing-mocks'
 import React from 'react'
 
@@ -27,6 +27,12 @@ describe('Test App component', () => {
   it('opens modal when a character card is clicked', async () => {
     const button = await screen.findByRole('button')
     fireEvent.click(button)
+    await waitFor(
+      () => {
+        screen.getByTestId('character-modal')
+      },
+      { timeout: 4000 },
+    )
     expect(screen.getByTestId('character-modal')).toBeVisible()
   })
 })
