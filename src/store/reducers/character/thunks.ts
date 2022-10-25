@@ -22,7 +22,15 @@ export const fetchCharacter = createAsyncThunk(
       // Character ID is passed
       // Fetch Character data followed by Location and Origin data
       if (typeof character === 'number') {
-        character = (await getCharacter(character)).data
+        if (isNaN(character)) return thunkAPI.rejectWithValue('404: Character not found')
+
+        const response = await getCharacter(character)
+
+        if (response.status !== 200) {
+          return thunkAPI.rejectWithValue(`${response.status}: ${response.statusMessage}`)
+        }
+
+        character = response.data
 
         /* Fetch Location & Origin */
         const locationsToFetch: Record<string, string> = {}
@@ -56,10 +64,9 @@ export const fetchCharacter = createAsyncThunk(
         episodes,
       }
     } catch (error) {
-      if (error) {
-        console.error(error.toString())
-        thunkAPI.rejectWithValue(error.toString())
-      }
+      if (!error) return
+      console.error(error)
+      thunkAPI.rejectWithValue(error)
     }
   },
 )

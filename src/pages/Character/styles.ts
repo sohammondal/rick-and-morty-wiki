@@ -14,13 +14,14 @@ export const closeIconSx = {
 
 export const ModalContent = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 75vh;
   padding: 50px 20px;
   background-color: #fff;
   border-radius: 4px;
   ${flexCol}
   overflow: auto;
   position: relative;
+  align-self: end;
 
   .character-information {
     ${flexCol}
@@ -95,3 +96,12 @@ export const CharInfo = styled.div`
     margin: 10px 0;
   }
 `
+
+export const errorSx: SxProps = {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center',
+}

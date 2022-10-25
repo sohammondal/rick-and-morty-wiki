@@ -9,6 +9,7 @@ interface CharacterState {
   origin: Location
   episodes: Episode[]
   isLoading: boolean
+  error: string | null
 }
 
 const initialState: CharacterState = {
@@ -17,6 +18,7 @@ const initialState: CharacterState = {
   origin: {} as Location,
   episodes: [],
   isLoading: true,
+  error: null,
 }
 
 const characterSlice = createSlice({
@@ -40,8 +42,9 @@ const characterSlice = createSlice({
         state.episodes = action.payload?.episodes || initialState.episodes
         state.isLoading = false
       })
-      .addCase(fetchCharacter.rejected, (state) => {
+      .addCase(fetchCharacter.rejected, (state, action) => {
         state.isLoading = false
+        state.error = action.payload as string
       })
   },
 })

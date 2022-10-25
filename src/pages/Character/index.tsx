@@ -10,7 +10,8 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { fetchCharacter, resetState } from 'store/reducers/character'
 
 import { EpisodesList } from './Episodes'
-import { CharInfo, closeIconSx, ModalContent, modalSx } from './styles'
+import { CharacterModalSkeleton } from './Skeleton'
+import { CharInfo, closeIconSx, ModalContent, modalSx, errorSx } from './styles'
 
 export const Character: React.FC = () => {
   const navigate = useNavigate()
@@ -18,18 +19,17 @@ export const Character: React.FC = () => {
   const routerLocation = useLocation()
   const dispatch = useAppDispatch()
 
-  const { character, episodes, origin, location /* isLoading */ } = useAppSelector(
+  const { character, episodes, origin, location, isLoading, error } = useAppSelector(
     (state) => state.character,
   )
 
   useEffect(() => {
     if (!characterId) return navigate('/')
-    if (!routerLocation?.state) return
 
     dispatch(
       fetchCharacter({
         character: Number(characterId),
-        ...routerLocation?.state,
+        ...(routerLocation?.state || {}),
       }),
     )
   }, [routerLocation, characterId])
@@ -54,30 +54,42 @@ export const Character: React.FC = () => {
     <Modal open sx={modalSx} onClose={closeModal} data-testid='character-modal'>
       <Slide in direction='up'>
         <ModalContent>
-          <IconButton aria-label='close' onClick={closeModal} sx={closeIconSx}>
-            <CloseIcon />
-          </IconButton>
-          <div className='character-information'>
-            <img src={character?.image} alt={character.name} />
-            <div>
-              {Object.keys(charInfo).map((charInfoKey) => {
-                const value = charInfo[charInfoKey] || 'unknown'
-                return (
-                  <CharInfo key={charInfoKey}>
-                    <Typography variant='body2' color='text.secondary'>
-                      {charInfoKey}
-                    </Typography>
-                    <Typography variant='body1' color='text.primary'>
-                      {value}
-                    </Typography>
-                  </CharInfo>
-                )
-              })}
-            </div>
-          </div>
-          <div className='character-episodes'>
-            <EpisodesList episodes={episodes} />
-          </div>
+          {!isLoading && (
+            <IconButton aria-label='close' onClick={closeModal} sx={closeIconSx}>
+              <CloseIcon />
+            </IconButton>
+          )}
+          {isLoading && <CharacterModalSkeleton charInfo={charInfo} />}
+          {error && (
+            <Typography variant='h3' component='div' sx={errorSx}>
+              {error}
+            </Typography>
+          )}
+          {!isLoading && !error && (
+            <>
+              <div className='character-information'>
+                <img src={character?.image} alt={character.name} />
+                <div>
+                  {Object.keys(charInfo).map((charInfoKey) => {
+                    const value = charInfo[charInfoKey] || 'unknown'
+                    return (
+                      <CharInfo key={charInfoKey}>
+                        <Typography variant='body2' color='text.secondary'>
+                          {charInfoKey}
+                        </Typography>
+                        <Typography variant='body1' color='text.primary'>
+                          {value}
+                        </Typography>
+                      </CharInfo>
+                    )
+                  })}
+                </div>
+              </div>
+              <div className='character-episodes'>
+                <EpisodesList episodes={episodes} />
+              </div>
+            </>
+          )}
         </ModalContent>
       </Slide>
     </Modal>
