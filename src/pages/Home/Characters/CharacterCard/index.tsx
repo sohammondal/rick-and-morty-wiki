@@ -24,10 +24,17 @@ export const CharacterCard: React.FC<Props> = ({ character, location, origin }) 
   const navigate = useNavigate()
 
   const charInfo: Record<string, string> = {
-    species: character.species || 'unknown',
+    species: character?.species || 'unknown',
     origin: `${origin?.name || 'unknown'} ${origin?.type ? ` • ${origin.type}` : ''}`,
     location: `${location?.name || 'unknown'} ${location?.type ? ` • ${location.type}` : ''}`,
   }
+
+  if (!character?.name)
+    return (
+      <Card data-testid='character-card'>
+        <Typography variant='h3'>Loading</Typography>
+      </Card>
+    )
 
   return (
     <Card data-testid='character-card'>

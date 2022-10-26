@@ -1,68 +1,54 @@
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
-import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
-import * as React from 'react'
+import React from 'react'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { FixedSizeList } from 'react-window'
 import { Episode } from 'rickmortyapi/dist/interfaces'
 
-import { boxSx, listSx } from './styles'
+import { useDeviceDetect } from 'hooks/useDeviceDetect'
+
+import { EpisodeItem } from './EpisodeItem'
+import { boxSx } from './styles'
 
 export const EpisodesList: React.FC<{ episodes: Episode[] }> = ({ episodes }) => {
+  const device = useDeviceDetect()
+
+  const getHeight = (autoSizerHeight = 100) => {
+    let height = 1000 //px
+    if (device.desktop) height = autoSizerHeight
+    else if (device.tabletLandscape) height = autoSizerHeight
+    else if (device.tabletPortrait) height = autoSizerHeight
+    else if (device.phone) height = 1000
+    return height
+  }
+
   if (!episodes.length) return null
   return (
     <Box sx={boxSx}>
       <Typography variant='h4'>Episodes</Typography>
-      <List sx={listSx}>
-        {episodes?.map((episode, index) => {
-          const isLastItem = episodes.length - 1 === index
-          return (
-            <React.Fragment key={episode.id}>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    <>
-                      <Typography
-                        sx={{ display: 'inline' }}
-                        component='span'
-                        variant='body2'
-                        color='text.secondary'
-                      >
-                        {episode.id}{' '}
-                      </Typography>
-                      {episode.name}
-                    </>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      {' code '}
-                      <Typography
-                        sx={{ display: 'inline' }}
-                        component='span'
-                        variant='body2'
-                        color='text.primary'
-                      >
-                        {episode.episode}
-                      </Typography>
-                      {' • aired '}
-                      <Typography
-                        sx={{ display: 'inline' }}
-                        component='span'
-                        variant='body2'
-                        color='text.primary'
-                      >
-                        {episode.air_date}
-                      </Typography>
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              {!isLastItem && <Divider variant='middle' component='li' />}
-            </React.Fragment>
-          )
-        })}
-      </List>
+      <AutoSizer>
+        {({ height, width }) => (
+          <FixedSizeList
+            height={getHeight(height)}
+            width={width}
+            itemCount={episodes.length}
+            itemSize={80}
+          >
+            {({ index, style }) => {
+              const isLastItem = episodes.length - 1 === index
+              const episode = episodes[index]
+              return (
+                <ListItem style={style} key={episode.id}>
+                  <EpisodeItem episode={episode} />
+                  {!isLastItem && <Divider variant='middle' component='div' />}
+                </ListItem>
+              )
+            }}
+          </FixedSizeList>
+        )}
+      </AutoSizer>
     </Box>
   )
 }

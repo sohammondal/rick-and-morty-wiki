@@ -10,6 +10,7 @@ export const closeIconSx = {
   right: 8,
   top: 8,
   color: (theme: Theme): string => theme.palette.grey[500],
+  zIndex: 1,
 }
 
 export const ModalContent = styled.div`
