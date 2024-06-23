@@ -22,12 +22,11 @@ const initialState: CharacterState = {
 }
 
 const characterSlice = createSlice({
-  name: 'characters',
+  name: 'character',
   initialState,
   reducers: {
-    resetState: (state) => {
-      state = initialState
-      return state
+    resetState: () => {
+      return initialState
     },
   },
   extraReducers: (builder) => {
@@ -53,4 +52,4 @@ export default characterSlice.reducer
 
 export { fetchCharacter }
 
-export const { resetState } = characterSlice.actions
+export const characterSliceActions = characterSlice.actions

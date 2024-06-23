@@ -1,13 +1,15 @@
 import styled from '@emotion/styled'
 
-import { flexCol, flexRowCenter, media } from 'theme/common.styles'
+import { flexRowCenter, media } from 'theme/common.styles'
 
 export const Section = styled.section`
-  ${flexCol}
-  align-items: center;
-  padding: 5vh 0;
+  display: block;
+
+  padding: 5vh 10vh;
 
   min-height: 100vh;
+  width: 100vw;
+
   background-color: #202329;
   color: #fff;
 

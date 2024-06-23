@@ -1,19 +1,24 @@
 import { useEffect } from 'react'
-import useInfiniteScroll, { UseInfiniteScrollHookRefCallback } from 'react-infinite-scroll-hook'
 import { Character, Location } from 'rickmortyapi/dist/interfaces'
 
+import { chunk } from 'helpers/array'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { charactersSliceActions, fetchCharacters } from 'store/reducers/characters'
 
-type ReturnType = {
-  isLoading: boolean
-  locations: Record<string, Location>
-  characters: Character[]
-  hasNextPage: boolean
-  infiniteSrollRef: UseInfiniteScrollHookRefCallback
+type Props = {
+  groupOf: number
 }
 
-export const useCharactersWithInfiniteScroll = (): ReturnType => {
+type Return = {
+  isLoading: boolean
+  locations: Record<string, Location>
+  characters: Character[][]
+  hasNextPage: boolean
+  loadMore: () => void
+  totalCharacters: number
+}
+
+export const useCharacters = ({ groupOf }: Props): Return => {
   const dispatch = useAppDispatch()
   const characters = useAppSelector((state) => state.characters)
   const locations = useAppSelector((state) => state.locations)
@@ -28,19 +33,12 @@ export const useCharactersWithInfiniteScroll = (): ReturnType => {
     dispatch(fetchCharacters({ page: 1 }))
   }, [])
 
-  const [infiniteSrollRef] = useInfiniteScroll({
-    loading: isLoading,
-    hasNextPage,
-    onLoadMore: () => dispatch(fetchCharacters({ page: Number(nextPage) })),
-    rootMargin: '0px 0px 10px 0px',
-    delayInMs: 1000,
-  })
-
   return {
+    totalCharacters: characters.info?.count || characters.data.length,
     locations: locations.data,
-    characters: characters.data,
+    characters: chunk<Character>(characters.data, groupOf),
     isLoading,
     hasNextPage,
-    infiniteSrollRef,
+    loadMore: () => dispatch(fetchCharacters({ page: Number(nextPage) })),
   }
 }

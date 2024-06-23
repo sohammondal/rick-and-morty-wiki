@@ -21,7 +21,11 @@ const initialState: CharactersState = {
 const charactersSlice = createSlice({
   name: 'characters',
   initialState,
-  reducers: {},
+  reducers: {
+    resetState: () => {
+      return initialState
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCharacters.pending, (state) => {
@@ -43,3 +47,5 @@ const charactersSlice = createSlice({
 export default charactersSlice.reducer
 
 export { fetchCharacters }
+
+export const charactersSliceActions = charactersSlice.actions

@@ -24,7 +24,7 @@ export const CharInfo = styled.div`
 export const Card = styled(MUICard)`
   margin: 20px 0;
   width: 100%;
-  border-radius: 0;
+  border-radius: 4px;
   transition: 0.5s ease;
 
   .card-media {
@@ -46,7 +46,6 @@ export const Card = styled(MUICard)`
     width: 550px;
     height: 220px;
     margin: 20px;
-    border-radius: 4px;
 
     .card-action-area {
       display: flex;

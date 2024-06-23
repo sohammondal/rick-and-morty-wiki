@@ -1,9 +1,9 @@
 import { CircularProgress } from '@mui/material'
 import React from 'react'
 
+import { CharacterCards, Section } from './styles'
 import { useCharactersWithInfiniteScroll } from './useCharactersWithInfiniteScroll'
 
-import { CharacterCards, Section } from '../../styles'
 import { CharacterCard } from '../CharacterCard'
 
 export const CharactersWithInfiniteScroll: React.FC = () => {

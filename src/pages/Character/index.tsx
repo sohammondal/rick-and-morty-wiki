@@ -7,7 +7,7 @@ import React, { useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { fetchCharacter, resetState } from 'store/reducers/character'
+import { fetchCharacter, characterSliceActions } from 'store/reducers/character'
 
 import { EpisodesList } from './Episodes'
 import { CharacterModalSkeleton } from './Skeleton'
@@ -46,7 +46,7 @@ export const Character: React.FC = () => {
   }
 
   const closeModal = () => {
-    dispatch(resetState())
+    dispatch(characterSliceActions.resetState())
     navigate('/')
   }
 
