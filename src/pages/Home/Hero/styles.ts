@@ -7,7 +7,7 @@ export const Section = styled.section`
   text-align: center;
   position: relative;
   width: 100%;
-  height: calc(50vh - 60px);
+  height: calc(35vh - 60px);
 
   h1 {
     flex-grow: 1;

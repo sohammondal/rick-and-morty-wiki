@@ -13,7 +13,7 @@ type ReturnType = {
   infiniteSrollRef: UseInfiniteScrollHookRefCallback
 }
 
-export const useCharacters = (): ReturnType => {
+export const useCharactersWithInfiniteScroll = (): ReturnType => {
   const dispatch = useAppDispatch()
   const characters = useAppSelector((state) => state.characters)
   const locations = useAppSelector((state) => state.locations)
