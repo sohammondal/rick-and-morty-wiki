@@ -1,5 +1,5 @@
 import React from 'react'
-import AutoSizer from 'react-virtualized-auto-sizer'
+import AutoSizer, { Size } from 'react-virtualized-auto-sizer'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
 import { Character, Location } from 'rickmortyapi/dist/interfaces'
@@ -65,7 +65,7 @@ export const CharactersWithVirtualizedList: React.FC = () => {
   return (
     <Section>
       <AutoSizer>
-        {({ height, width }) => (
+        {({ height, width }: Size) => (
           <InfiniteLoader
             isItemLoaded={(index) => index < characters.length && characters[index] !== null}
             itemCount={totalCharacters}
