@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/rick-and-morty-wiki/static/js/main.f5402a80.chunk.js",
-    "main.js.map": "/rick-and-morty-wiki/static/js/main.f5402a80.chunk.js.map",
+    "main.js": "/rick-and-morty-wiki/static/js/main.e488afcc.chunk.js",
+    "main.js.map": "/rick-and-morty-wiki/static/js/main.e488afcc.chunk.js.map",
     "runtime-main.js": "/rick-and-morty-wiki/static/js/runtime-main.3fa0cddc.js",
     "runtime-main.js.map": "/rick-and-morty-wiki/static/js/runtime-main.3fa0cddc.js.map",
     "static/js/2.73dbb3ca.chunk.js": "/rick-and-morty-wiki/static/js/2.73dbb3ca.chunk.js",
@@ -16,6 +16,6 @@
   "entrypoints": [
     "static/js/runtime-main.3fa0cddc.js",
     "static/js/2.73dbb3ca.chunk.js",
-    "static/js/main.f5402a80.chunk.js"
+    "static/js/main.e488afcc.chunk.js"
   ]
 }
