@@ -5,7 +5,7 @@ import { flexCol, flexRowCenter, media } from 'theme/common.styles'
 export const Section = styled.section`
   ${flexCol}
   align-items: center;
-  padding: 5vh 10vh;
+  padding: 5vh 15px;
 
   min-height: 100vh;
   width: 100vw;
