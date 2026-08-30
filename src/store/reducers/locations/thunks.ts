@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { getLocation } from 'rickmortyapi'
 import { Location } from 'rickmortyapi/dist/interfaces'
 
+import { getLocation } from 'api/rickmortyapi'
 import { extractNumberFromString } from 'helpers/string'
 
 import { RootState } from '../..'

@@ -7,7 +7,7 @@ import { render } from 'utils/test'
 import App from './App'
 
 mockIntersectionObserver()
-jest.mock('rickmortyapi')
+jest.mock('api/rickmortyapi')
 
 beforeEach(() => {
   render(<App />)
