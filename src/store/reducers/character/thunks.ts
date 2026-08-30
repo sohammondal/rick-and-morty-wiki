@@ -67,7 +67,7 @@ export const fetchCharacter = createAsyncThunk(
     } catch (error) {
       if (!error) return
       console.error(error)
-      thunkAPI.rejectWithValue(error)
+      return thunkAPI.rejectWithValue(error)
     }
   },
 )

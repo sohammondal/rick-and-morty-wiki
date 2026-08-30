@@ -6,11 +6,13 @@ import { charactersSliceActions, fetchCharacters } from 'store/reducers/characte
 
 type Return = {
   isLoading: boolean
+  error: string | null
   locations: Record<string, Location>
   characters: Character[]
   page: number
   totalPages: number
   setPage: (page: number) => void
+  retry: () => void
 }
 
 export const useCharactersWithPagination = (): Return => {
@@ -21,17 +23,23 @@ export const useCharactersWithPagination = (): Return => {
   const locations = useAppSelector((state) => state.locations)
   const isLoading = characters.isLoading || locations.isLoading
 
-  useEffect(() => {
+  const loadPage = (): void => {
     dispatch(charactersSliceActions.resetState())
     dispatch(fetchCharacters({ page }))
-  }, [page])
+  }
+
+  useEffect(loadPage, [page])
 
   return {
     locations: locations.data,
     characters: characters.data,
     isLoading,
+    error: characters.error,
     page,
-    totalPages: characters.info?.pages || 1,
+    // Only trust the page count once we've successfully loaded data - on a
+    // failed request `info` still holds whatever the last good value was.
+    totalPages: characters.data.length ? characters.info?.pages || 1 : page,
     setPage,
+    retry: loadPage,
   }
 }
