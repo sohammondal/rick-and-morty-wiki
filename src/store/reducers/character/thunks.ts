@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { getCharacter } from 'rickmortyapi'
 import { Character, Episode, Location } from 'rickmortyapi/dist/interfaces'
+
+import { getCharacter } from 'api/rickmortyapi'
 
 import { RootState } from '../..'
 import { fetchEpisode } from '../episodes'

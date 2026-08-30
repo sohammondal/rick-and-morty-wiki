@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { getCharacters } from 'rickmortyapi'
 import { CharacterFilter } from 'rickmortyapi/dist/interfaces'
+
+import { getCharacters } from 'api/rickmortyapi'
 
 import { fetchLocation } from '../locations/thunks'
 
