@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 
-import { flexCol, flexRowCenter, media } from 'theme/common.styles'
+import { flexColCenter, flexCol, flexRowCenter, media } from 'theme/common.styles'
 
 export const Section = styled.section`
   ${flexCol}
@@ -22,6 +22,13 @@ export const CharacterCards = styled.div`
   ${flexRowCenter}
   flex-wrap: wrap;
   min-height: 60vh;
+`
+
+export const ErrorState = styled.div`
+  ${flexColCenter}
+  min-height: 60vh;
+  gap: 1.25rem;
+  text-align: center;
 `
 
 export const PaginationWrapper = styled.div`

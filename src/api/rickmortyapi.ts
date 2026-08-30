@@ -25,8 +25,35 @@ const toQueryString = (params: CharacterFilter): string => {
   return searchParams.toString()
 }
 
-const request = async <T>(path: string): Promise<ApiResponse<T>> => {
-  const response = await fetch(`${BASE_URL}${path}`)
+const MAX_RETRIES = 3
+const BASE_RETRY_DELAY_MS = 500
+
+const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
+
+/**
+ * The live API is aggressively rate-limited (429) and occasionally drops
+ * requests outright, which the browser reports as a CORS/"Failed to fetch"
+ * error since the failed response carries no Access-Control-Allow-Origin
+ * header. Retry both cases with backoff before giving up.
+ */
+const request = async <T>(path: string, attempt = 0): Promise<ApiResponse<T>> => {
+  let response: Response
+  try {
+    response = await fetch(`${BASE_URL}${path}`)
+  } catch (error) {
+    if (attempt >= MAX_RETRIES) throw error
+    await wait(BASE_RETRY_DELAY_MS * 2 ** attempt)
+    return request<T>(path, attempt + 1)
+  }
+
+  if (response.status === 429 && attempt < MAX_RETRIES) {
+    const retryAfterSeconds = Number(response.headers.get('Retry-After'))
+    const delay =
+      retryAfterSeconds > 0 ? retryAfterSeconds * 1000 : BASE_RETRY_DELAY_MS * 2 ** attempt
+    await wait(delay)
+    return request<T>(path, attempt + 1)
+  }
+
   const data = response.ok ? await response.json() : ({} as T)
   return {
     data,

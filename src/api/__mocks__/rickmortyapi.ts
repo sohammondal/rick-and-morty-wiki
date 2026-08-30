@@ -1,4 +1,6 @@
 const resp = {
+  status: 200,
+  statusMessage: 'OK',
   data: {
     info: {},
     results: [
@@ -30,12 +32,16 @@ const resp = {
 const getCharacters = async () => resp
 
 const getLocation = async () => ({
+  status: 200,
+  statusMessage: 'OK',
   data: {
     ...resp.data.results[0].location,
   },
 })
 
 const getEpisode = async () => ({
+  status: 200,
+  statusMessage: 'OK',
   data: {
     id: 22,
     name: 'The Rickshank Rickdemption',

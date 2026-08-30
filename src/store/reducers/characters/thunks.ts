@@ -9,7 +9,13 @@ export const fetchCharacters = createAsyncThunk(
   'characters/getCharacters',
   async (filters: CharacterFilter, thunkAPI) => {
     try {
-      const response = (await getCharacters(filters))?.data
+      const apiResponse = await getCharacters(filters)
+
+      if (apiResponse.status !== 200) {
+        return thunkAPI.rejectWithValue(`${apiResponse.status}: ${apiResponse.statusMessage}`)
+      }
+
+      const response = apiResponse.data
       const locationsToFetch: Record<string, string> = {}
 
       response?.results?.forEach((char) => {
@@ -28,7 +34,7 @@ export const fetchCharacters = createAsyncThunk(
     } catch (error) {
       if (error) {
         console.error(error.toString())
-        thunkAPI.rejectWithValue(error.toString())
+        return thunkAPI.rejectWithValue(error.toString())
       }
     }
   },
