@@ -47,6 +47,24 @@ export const ListRenderStrategySelector: React.FC = () => {
       >
         virtualized list
       </Button>
+      <Button
+        style={{
+          color: loadingStrategy === 'pagination' ? 'white' : 'inherit',
+        }}
+        onClick={() => {
+          setLoadingStrategy('pagination')
+        }}
+        variant={loadingStrategy === 'pagination' ? 'contained' : 'outlined'}
+        endIcon={
+          <Tooltip
+            title={`Pagination splits content across discrete, numbered pages and lets the user jump directly to any of them. Unlike infinite scroll, it only ever loads one page of data at a time and gives the user explicit control over navigation.`}
+          >
+            <InfoSharp />
+          </Tooltip>
+        }
+      >
+        pagination
+      </Button>
     </ButtonGroup>
   )
 }
