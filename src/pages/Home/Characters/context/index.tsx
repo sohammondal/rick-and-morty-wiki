@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react'
 
-type LoadingStrategy = 'infinite-scroll' | 'virtualized-list'
+type LoadingStrategy = 'infinite-scroll' | 'virtualized-list' | 'pagination'
 
 interface CharactersContextProps {
   loadingStrategy: LoadingStrategy
