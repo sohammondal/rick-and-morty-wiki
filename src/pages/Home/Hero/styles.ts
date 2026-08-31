@@ -1,33 +1,44 @@
 import styled from '@emotion/styled'
 
-import { flexRowCenter, hw, media } from 'theme/common.styles'
+import { flexRowCenter, media } from 'theme/common.styles'
 
 export const Section = styled.section`
   ${flexRowCenter}
   text-align: center;
   position: relative;
   width: 100%;
-  height: calc(35vh - 60px);
+  padding: 2rem 15px;
+  overflow: hidden;
 
   h1 {
-    flex-grow: 1;
-    margin: 0px;
+    margin: 0;
     color: rgb(32, 35, 41);
     border: none;
     font-weight: 900;
-    font-size: 3.625rem;
+    font-size: 1.75rem;
 
     ${media.tabletPortrait} {
-      font-size: 5.625rem;
+      font-size: 2.5rem;
     }
   }
 
   div {
     position: absolute;
-    ${hw.full}
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 130px;
+    height: 130px;
     z-index: -1;
+
+    ${media.tabletPortrait} {
+      width: 200px;
+      height: 200px;
+    }
+
     svg {
-      ${hw.full}
+      width: 100%;
+      height: 100%;
     }
   }
 `
