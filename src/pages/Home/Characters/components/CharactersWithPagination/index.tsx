@@ -21,7 +21,7 @@ export const CharactersWithPagination: React.FC = () => {
         {!isLoading && friendlyError && (
           <ErrorState>
             <Typography variant='h6'>{friendlyError.title}</Typography>
-            <Typography variant='body2' color='text.secondary'>
+            <Typography variant='body2' sx={{ color: 'rgba(255, 255, 255, 0.75)' }}>
               {friendlyError.description}
             </Typography>
             <Button variant='outlined' color='inherit' onClick={retry}>
